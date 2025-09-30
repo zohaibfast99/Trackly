@@ -7,5 +7,6 @@ export const userSchema = z.object({
     industryType: z.string().min(1, "Industry type is required"),
     //email: z.string().email("Invalid email address"),
     email: z.email("Invalid email address"),
-    role: z.string().min(1, "Role is required")
+    role: z.string().min(1, "Role is required"),
+    image: z.string().optional(),
 })

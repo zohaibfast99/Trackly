@@ -19,7 +19,7 @@ export default async function Home() {
             </p>
           </h1>
           <p className="mt-6 text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia, reiciendis expedita. 
+          Your project management - Simplified 
           </p>
           <div className="flex items-center justify-center gap-4 mt-6">
             {

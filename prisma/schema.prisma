@@ -48,7 +48,7 @@ enum AccessLevel{
 model WorkspaceMember{
   id String @id @default(uuid())
   userId String
-  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   workspaceId String
   workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   accessLevel AccessLevel @default(MEMBER)
@@ -63,7 +63,7 @@ model Project{
   name String
   description String?
   workspaceId String
-  Workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   tasks Task[]
   activities Activity[]
   comments Comment[]
@@ -77,9 +77,9 @@ model Project{
 model ProjectAccess{
   id String @id @default(uuid())
   workspaceMemberId String
-  WorkspaceMember WorkspaceMember @relation(fields: [workspaceMemberId], references: [id], onDelete: Cascade)
+  workspaceMember WorkspaceMember @relation(fields: [workspaceMemberId], references: [id], onDelete: Cascade)
   projectId String
-  Project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   hasAccess Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

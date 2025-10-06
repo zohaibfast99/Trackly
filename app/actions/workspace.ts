@@ -29,7 +29,7 @@ export const createNewWorkspace = async(data : CreateWorkspaceDataType) => {
             }
         }
     })
-    return res;
+    return {data:res};
     }
     catch(err){
         console.log(err)

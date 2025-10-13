@@ -30,8 +30,9 @@ else if(!data?.onboardingCompleted)
 
         <main className='w-full overflow-y-auto min-h-screen'>
             <div className='flex items-start'>
-                {/* <SidebarTrigger className='pt-3'/>
-                <Navbar id={data?.id}
+                <SidebarTrigger className='pt-3'/>
+                
+                {/* <Navbar id={data?.id}
                 name={data?.name as string}
                 email={data?.email as string}
                 image = {data?.image as string} */}

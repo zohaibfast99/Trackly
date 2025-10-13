@@ -71,7 +71,7 @@ model Project{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   documentation Documentation[]
-  @@unique([workspaceId])
+  @@index([workspaceId])
 }
 
 model ProjectAccess{

@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.2.1",
     "@kinde-oss/kinde-auth-nextjs": "^2.9.0",
     "@prisma/client": "^6.16.1",

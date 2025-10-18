@@ -25,8 +25,8 @@ export const NavProjects = ({projects,workspaceMembers}:{
         </SidebarGroupLabel>
         <SidebarMenu>
             {
-                projects?.map(proj => {
-                    const href = `/workspace/${proj.workspaceId}/projects/${proj.id}`
+                projects?.map((proj) => {
+                    const href = `/workspace/${proj.workspaceId}/projects/${proj.id}`;
                    return (
                     <SidebarMenuItem key={proj.id}>
                         <SidebarMenuButton>
@@ -34,7 +34,7 @@ export const NavProjects = ({projects,workspaceMembers}:{
                             href={href}
                             className={
                                 pathname === href ?
-                                "text-primary-foreground font-semibold":
+                                "text-blue-600 font-semibold":
                                 "text-muted-foreground"
                             }
                             >
@@ -42,8 +42,7 @@ export const NavProjects = ({projects,workspaceMembers}:{
                             </a>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
-                )})
-            }
+                );})}
         </SidebarMenu>
     </SidebarGroup>
     </>

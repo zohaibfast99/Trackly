@@ -5,7 +5,6 @@ import { Column, ProjectTaskProps } from "@/utils/types";
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DragDropContext, Draggable, Droppable, DropResult} from "@hello-pangea/dnd";
-import { init } from "next/dist/compiled/webpack/webpack";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/react-select";
 

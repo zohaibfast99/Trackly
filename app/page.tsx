@@ -24,9 +24,9 @@ export default async function Home() {
           <div className="flex items-center justify-center gap-4 mt-6">
             {
               isLoggedIn ? <>
-               <Button asChild>
+              <Button asChild>
                 <Link href="/workspace">Go to workspace</Link>
-               </Button>
+              </Button>
               </> : <>
               <Button>
                 <RegisterLink>

@@ -108,6 +108,7 @@ model Task{
   status TaskStatus @default(TODO)
   priority TaskPriority @default(LOW)
   startDate DateTime
+  dueDate  DateTime
   endDate DateTime
   position Int
   projectId String

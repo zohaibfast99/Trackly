@@ -36,7 +36,7 @@ export const CreateTaskDialog=({project}:Props)=>{
     });
     const handleOnSubmit=async(data:TaskFormValues)=>{};
     return<Dialog>
-        <DialogTrigger asChild> <Button>Create Task</Button></DialogTrigger>
+        <DialogTrigger asChild><Button>Create Task</Button></DialogTrigger>
        
     </Dialog>;
 }

@@ -31,7 +31,7 @@ export const WorkspaceSelector = ({
   const [selectedWorkspace, setSelectedWorkspace] = useState<
     WorkspacesProps | undefined
   >(undefined);
-  const [switching, setSwitching] = useState(false); // local loader only when switching workspace
+  const [switching, setSwitching] = useState(false); 
 
   const onWorkspaceSelect = (id: string) => {
     setSwitching(true);
@@ -46,11 +46,10 @@ export const WorkspaceSelector = ({
       setSelectedWorkspace(
         workspaces.find((workspace) => workspace.workspaceId === workspaceId)
       );
-      setSwitching(false); // stop loader once workspace is set
+      setSwitching(false); 
     }
   }, [workspaceId, workspaces]);
 
-  // Overall loading state = either projects are loading or switching
   const loading = projectsLoading || switching;
 
   return (

@@ -5,8 +5,10 @@ import Link from "next/link";
 //import Image from "next/image";
 
 export default async function Home() {
-  const {isAuthenticated} = getKindeServerSession()
+  const {isAuthenticated,getUser} = getKindeServerSession()
   const isLoggedIn = await isAuthenticated()
+   const user = await getUser(); 
+
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center">

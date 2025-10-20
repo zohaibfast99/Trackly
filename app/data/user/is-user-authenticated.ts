@@ -1,5 +1,6 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
+import { syncUser } from "./sync-user";
 
 export const userRequired = async () => {
   try {
@@ -7,11 +8,8 @@ export const userRequired = async () => {
     const isUserAuthenticated = await isAuthenticated();
     if (!isUserAuthenticated) redirect("/api/auth/login");
 
-    const user = await getUser();
-    if (!user?.id) {
-      console.error("Kinde returned user:", user);
-      throw new Error("Authenticated, but user object is missing an id");
-    }
+   
+     const user = await syncUser();
 
     return { user, isUserAuthenticated };
   } catch (error) {

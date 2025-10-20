@@ -1,3 +1,5 @@
+
+
 import { ProjectProps } from "@/utils/types";
 import { ProjectAvatar } from "./project-avatar";
 import { CreateTaskDialog } from "../task/create-task-dialog";
@@ -25,7 +27,7 @@ export const ProjectHeader = ({ project }: { project: ProjectProps }) => {
       </div>
       <Card className="p-4">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
-          <h1 className="text-sm font-medium">Team Member</h1>
+          <h3 className="text-sm font-medium">Team Member</h3>
           <div className="flex flex-wrap space-x-2">
             {project?.members?.map((member) => (
               <Avatar

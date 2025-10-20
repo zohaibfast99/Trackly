@@ -29,7 +29,7 @@ export const projectSchema = z.object({
 })
 export const taskFormSchema = z.object({
     title: z.string().min(1, "Title is Required"),
-    description: z.string().optional,
+    description: z.string().optional(),
     assigneeId: z.string().optional(),
     status: z.enum([
         "TODO",

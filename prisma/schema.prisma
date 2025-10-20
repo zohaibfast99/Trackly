@@ -110,7 +110,6 @@ model Task{
   priority TaskPriority @default(LOW)
   startDate DateTime
   dueDate  DateTime
-  endDate DateTime
   position Int
   projectId String
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)

@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import React from 'react'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebarContainer } from '@/components/sidebar/app-sidebar-container';
+import { Navbar } from '@/components/navbar';
 
 
 interface Props{
@@ -32,10 +33,10 @@ else if(!data?.onboardingCompleted)
             <div className='flex items-start'>
                 <SidebarTrigger className='pt-3'/>
                 
-                {/* <Navbar id={data?.id}
+                <Navbar id={data?.id}
                 name={data?.name as string}
                 email={data?.email as string}
-                image = {data?.image as string} */}
+                image = {data?.image as string} />
             </div>
             <div className='p-0 md:p-4 pt-2'>{children}</div>
         </main>

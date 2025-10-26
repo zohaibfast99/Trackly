@@ -1,7 +1,7 @@
 import { useParams } from "next/navigation";
 
 export const useProjectId = () => {
-    const params = useParams();
+    const params = useParams<{ workspaceId: string; projectId: string; taskId?: string }>();
 
-    return params.useProjectId as string;
+    return params.projectId;
 };

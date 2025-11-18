@@ -1,0 +1,80 @@
+{
+  "node": {
+    "7f76bf7891c4d037e615ecba30cb484a78b3274030": {
+      "workers": {
+        "app/(protected)/workspace/[workspaceId]/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/(protected)/workspace/[workspaceId]/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/project.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/workspace.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "refreshTokensServerAction",
+          "filename": "node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js"
+        }
+      },
+      "layer": {
+        "app/(protected)/workspace/[workspaceId]/settings/page": "action-browser"
+      },
+      "exportedName": "refreshTokensServerAction",
+      "filename": "node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js"
+    },
+    "7fb02fa2103e9952f7978876fd31aecdf271865a8a": {
+      "workers": {
+        "app/(protected)/workspace/[workspaceId]/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/(protected)/workspace/[workspaceId]/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/project.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/workspace.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "createNewProject",
+          "filename": "app/actions/project.ts"
+        }
+      },
+      "layer": {
+        "app/(protected)/workspace/[workspaceId]/settings/page": "action-browser"
+      },
+      "exportedName": "createNewProject",
+      "filename": "app/actions/project.ts"
+    },
+    "7fecf4f57a1d76619680690544ed941cea593c0dbb": {
+      "workers": {
+        "app/(protected)/workspace/[workspaceId]/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/(protected)/workspace/[workspaceId]/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/project.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/workspace.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteWorkspace",
+          "filename": "app/actions/workspace.ts"
+        }
+      },
+      "layer": {
+        "app/(protected)/workspace/[workspaceId]/settings/page": "action-browser"
+      },
+      "exportedName": "deleteWorkspace",
+      "filename": "app/actions/workspace.ts"
+    },
+    "7ff287ac54e684b6296204bb2b3c1a2dc99062282d": {
+      "workers": {
+        "app/(protected)/workspace/[workspaceId]/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/(protected)/workspace/[workspaceId]/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/project.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/workspace.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "resetWorkspaceInviteCode",
+          "filename": "app/actions/workspace.ts"
+        }
+      },
+      "layer": {
+        "app/(protected)/workspace/[workspaceId]/settings/page": "action-browser"
+      },
+      "exportedName": "resetWorkspaceInviteCode",
+      "filename": "app/actions/workspace.ts"
+    },
+    "7f977f833c2894be4e1a5b9624185d30b8d723a99f": {
+      "workers": {
+        "app/(protected)/workspace/[workspaceId]/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/(protected)/workspace/[workspaceId]/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/project.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/workspace.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateWorkspace",
+          "filename": "app/actions/workspace.ts"
+        }
+      },
+      "layer": {
+        "app/(protected)/workspace/[workspaceId]/settings/page": "action-browser"
+      },
+      "exportedName": "updateWorkspace",
+      "filename": "app/actions/workspace.ts"
+    }
+  },
+  "edge": {}
+}

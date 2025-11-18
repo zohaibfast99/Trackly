@@ -13,6 +13,14 @@ export const userRequired = async () => {
 
     return { user, isUserAuthenticated };
   } catch (error) {
+    // Check if it's a Next.js redirect error
+    if (error && typeof error === 'object' && 'digest' in error && 
+        typeof (error as any).digest === 'string' && 
+        (error as any).digest.startsWith('NEXT_REDIRECT')) {
+      // Re-throw redirect errors - they're not actual errors
+      throw error;
+    }
+    
     console.error("Error in userRequired:", error);
     redirect("/api/auth/login");
   }

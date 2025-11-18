@@ -1,0 +1,50 @@
+{
+  "node": {
+    "7f76bf7891c4d037e615ecba30cb484a78b3274030": {
+      "workers": {
+        "app/workspace-invite/[workspaceId]/join/[inviteCode]/page": {
+          "moduleId": "[project]/.next-internal/server/app/workspace-invite/[workspaceId]/join/[inviteCode]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/workspace.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "refreshTokensServerAction",
+          "filename": "node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js"
+        }
+      },
+      "layer": {
+        "app/workspace-invite/[workspaceId]/join/[inviteCode]/page": "action-browser"
+      },
+      "exportedName": "refreshTokensServerAction",
+      "filename": "node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js"
+    },
+    "7f4738f8e2bdcd71d31303fc273ce2f3cc72eddba0": {
+      "workers": {
+        "app/workspace-invite/[workspaceId]/join/[inviteCode]/page": {
+          "moduleId": "[project]/.next-internal/server/app/workspace-invite/[workspaceId]/join/[inviteCode]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/workspace.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "joinWorkspaceWithInvite",
+          "filename": "app/actions/workspace.ts"
+        }
+      },
+      "layer": {
+        "app/workspace-invite/[workspaceId]/join/[inviteCode]/page": "action-browser"
+      },
+      "exportedName": "joinWorkspaceWithInvite",
+      "filename": "app/actions/workspace.ts"
+    },
+    "7feaebac38be3fb7b4e58ff4230b46c3cccafe926e": {
+      "workers": {
+        "app/workspace-invite/[workspaceId]/join/[inviteCode]/page": {
+          "moduleId": "[project]/.next-internal/server/app/workspace-invite/[workspaceId]/join/[inviteCode]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/workspace.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getWorkspaceByInviteCode",
+          "filename": "app/actions/workspace.ts"
+        }
+      },
+      "layer": {
+        "app/workspace-invite/[workspaceId]/join/[inviteCode]/page": "action-browser"
+      },
+      "exportedName": "getWorkspaceByInviteCode",
+      "filename": "app/actions/workspace.ts"
+    }
+  },
+  "edge": {}
+}

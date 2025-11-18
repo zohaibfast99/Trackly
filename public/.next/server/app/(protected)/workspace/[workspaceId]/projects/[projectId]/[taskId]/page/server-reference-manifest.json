@@ -1,0 +1,65 @@
+{
+  "node": {
+    "7f76bf7891c4d037e615ecba30cb484a78b3274030": {
+      "workers": {
+        "app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/project.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/task.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "refreshTokensServerAction",
+          "filename": "node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js"
+        }
+      },
+      "layer": {
+        "app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page": "action-browser"
+      },
+      "exportedName": "refreshTokensServerAction",
+      "filename": "node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js"
+    },
+    "7fb02fa2103e9952f7978876fd31aecdf271865a8a": {
+      "workers": {
+        "app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/project.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/task.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "createNewProject",
+          "filename": "app/actions/project.ts"
+        }
+      },
+      "layer": {
+        "app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page": "action-browser"
+      },
+      "exportedName": "createNewProject",
+      "filename": "app/actions/project.ts"
+    },
+    "7f5d929c8911b1968c09d88cb7e67b38661cf87be4": {
+      "workers": {
+        "app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/project.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/task.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "postComments",
+          "filename": "app/actions/project.ts"
+        }
+      },
+      "layer": {
+        "app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page": "action-browser"
+      },
+      "exportedName": "postComments",
+      "filename": "app/actions/project.ts"
+    },
+    "7fed320c936a028fd08e31a51dcff369d28afbca53": {
+      "workers": {
+        "app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@kinde-oss/kinde-auth-nextjs/dist/src/session/refreshTokensServerAction.es.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/project.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/task.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateTask",
+          "filename": "app/actions/task.ts"
+        }
+      },
+      "layer": {
+        "app/(protected)/workspace/[workspaceId]/projects/[projectId]/[taskId]/page": "action-browser"
+      },
+      "exportedName": "updateTask",
+      "filename": "app/actions/task.ts"
+    }
+  },
+  "edge": {}
+}

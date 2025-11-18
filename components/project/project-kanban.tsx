@@ -1,153 +1,227 @@
 "use client"
 
-import { $Enums, TaskStatus } from "@prisma/client";
-import { Column, ProjectTaskProps } from "@/utils/types";
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { DragDropContext, Draggable, Droppable, DropResult} from "@hello-pangea/dnd";
-import { cn } from "@/lib/utils";
-import { Separator } from "@radix-ui/react-select";
-import { taskStatusVariant } from "@/utils";
-import { ProjectCard } from "./project-card";
-import { updatedTaskPosition } from "@/app/actions/task";
+import { $Enums, TaskStatus } from "@prisma/client"
+import { Column, ProjectTaskProps } from "@/utils/types"
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "@hello-pangea/dnd"
+import { cn } from "@/lib/utils"
+import { Separator } from "@radix-ui/react-select"
+import { taskStatusVariant } from "@/utils"
+import { ProjectCard } from "./project-card"
+import { updatedTaskPosition } from "@/app/actions/task"
 
 const COLUMN_TITLES: Record<$Enums.TaskStatus, string> = {
-        TODO: "To Do",
-        IN_PROGRESS: "In Progress",
-        COMPLETED: "Completed",
-        BLOCKED: "Blocked",
-        BACKLOG: "Backlog",
-        IN_REVIEW: "In Review",
-    };
+  TODO: "To Do",
+  IN_PROGRESS: "In Progress",
+  COMPLETED: "Completed",
+  BLOCKED: "Blocked",
+  BACKLOG: "Backlog",
+  IN_REVIEW: "In Review",
+}
 
-    export const ProjectKanban = ({
-        initialTasks,
-    }: {
-        initialTasks: ProjectTaskProps[]
-    }) => {
-        const router = useRouter();
+export const ProjectKanban = ({
+  initialTasks,
+}: {
+  initialTasks: ProjectTaskProps[]
+}) => {
+  const router = useRouter()
 
-        if(initialTasks.length === 0) return null
-        
-        const [columns, setColumns] = useState<Column[]>([])
+  if (!initialTasks.length) return null
 
-        useEffect(() => {
-            const initialColumns: Column[] = Object.entries(COLUMN_TITLES).map(([status, title]) => ({
-                id: status as TaskStatus,
-                title,
-                tasks: initialTasks
-                .filter((task) => task.status === status)
-                .sort((a, b) => a.position - b.position),
-            }));
-            setColumns(initialColumns);
-        }, [initialTasks]);
+  const [columns, setColumns] = useState<Column[]>([])
+  const [savingTask, setSavingTask] = useState<boolean>(false) // 🔥 NEW
 
-        const onDragEnd  = useCallback(
-            async(result: DropResult) => {
-                const {destination, source} = result;
+  const mappedColumns = useMemo(() => {
+    return Object.entries(COLUMN_TITLES).map(([status, title]) => ({
+      id: status as TaskStatus,
+      title,
+      tasks: initialTasks
+        .filter((task) => task.status === status)
+        .sort((a, b) => a.position - b.position),
+    }))
+  }, [initialTasks])
 
-                if(!destination) return;
+  useEffect(() => {
+    setColumns(mappedColumns)
+  }, [mappedColumns])
 
-                const newColumns = [...columns];
+  // ====================================================
+  // 🔥 Improved Drag Handler With "Saving" State
+  // ====================================================
+  const onDragEnd = useCallback(
+    async (result: DropResult) => {
+      if (savingTask) return // 🔥 Prevent dragging again while saving
 
+      const { destination, source } = result
+      if (!destination) return
 
-                const sourceColumn = newColumns.find(col => col.id === source.droppableId);
-                const destColumn = newColumns.find(col => col.id === destination.droppableId);
+      const updatedColumns = structuredClone(columns)
 
-                if(!sourceColumn || !destColumn) return;
+      const sourceCol = updatedColumns.find(
+        (c) => c.id === source.droppableId
+      )
+      const destCol = updatedColumns.find(
+        (c) => c.id === destination.droppableId
+      )
 
-                const [movedTask] = sourceColumn.tasks.splice(source.index, 1);
+      if (!sourceCol || !destCol) return
 
-                const destinationTasks = destColumn.tasks;
+      // Remove & retrieve task
+      const [movedTask] = sourceCol.tasks.splice(source.index, 1)
 
-                let newPosition: number;
+      // Insert into new location
+      const targetTasks = destCol.tasks
 
-                if(destinationTasks.length === 0){
-                    newPosition = 1000;
-                } else if(destination.index === 0){
-                    newPosition = destinationTasks[0].position - 1000;
-                } else if (destination.index === destinationTasks.length){
-                    newPosition = destinationTasks[destinationTasks.length -1].position + 1000;
-                } else {
-                    newPosition = (destinationTasks[destination.index -1].position + destinationTasks[destination.index].position) /2;
-                }
+      let newPosition = 0
 
-                const updatedTask = {
-                    ...movedTask,
-                    position: newPosition,
-                    status: destination.droppableId as TaskStatus,
-                };
+      if (targetTasks.length === 0) {
+        newPosition = 1000
+      } else if (destination.index === 0) {
+        newPosition = targetTasks[0].position - 1000
+      } else if (destination.index === targetTasks.length) {
+        newPosition = targetTasks[targetTasks.length - 1].position + 1000
+      } else {
+        newPosition =
+          (targetTasks[destination.index - 1].position +
+            targetTasks[destination.index].position) / 2
+      }
 
-                destColumn.tasks.splice(destination.index, 0, updatedTask);
+      const updated = {
+        ...movedTask,
+        position: newPosition,
+        status: destCol.id,
+      }
 
-                setColumns(newColumns);
+      destCol.tasks.splice(destination.index, 0, updated)
 
-                try{
-                    await updatedTaskPosition(
-                        movedTask.id,
-                        newPosition,
-                        destination.droppableId as TaskStatus
-                    );
+      setColumns(updatedColumns)
 
-                    router.refresh();
-                }catch(error){
-                    console.log(error)
-                }
-            },[columns]
+      // 🔥 START SAVING STATE
+      setSavingTask(true)
+
+      try {
+        await updatedTaskPosition(
+          movedTask.id,
+          newPosition,
+          destCol.id as TaskStatus
         )
+        await router.refresh()
+        
+        // Add a small delay to ensure UI has updated
+        await new Promise(resolve => setTimeout(resolve, 500))
+        
+      } catch (error) {
+        console.log(error)
+      } finally {
+        // 🔥 END SAVING STATE - only after everything is complete
+        setSavingTask(false)
+      }
+    },
+    [columns, savingTask]
+  )
 
-        return <div className="flex gap-4 h-full  md:px-4 overflow-x-auto">
-        <DragDropContext onDragEnd={onDragEnd} >
-                {
-                    columns.map((column) => (
-                        <div
-                            key={column.id}
-                            className="flex flex-col min-w-60 w-80 bg-gray-50 dark:bg-gray-900"
-                        >
-                            <div className="flex justify-between items-center">
-                                <div className="flex items-center gap-2 mb-4 pl-3">
-                                    <div 
-                                        className={cn("size-4 rounded")} 
-                                        style={{
-                                        backgroundColor: taskStatusVariant[column.id as TaskStatus],
-                                        }}
-                                    />
-                                    <h2 className="font-semibold">{column.title}</h2>
-                                </div>
-                            </div>
+  return (
+    <>
+      {/* MAIN BOARD */}
+      <div className="relative flex gap-4 h-full md:px-4 overflow-x-auto pb-4">
+        <DragDropContext onDragEnd={onDragEnd}>
+          {columns.map((column) => (
+            <div
+              key={column.id}
+              className="flex flex-col min-w-64 lg:min-w-72 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-sm p-3"
+            >
+              {/* Header */}
+              <div className="flex justify-between items-center mb-2">
+                <div className="flex items-center gap-2">
+                  <div
+                    className={cn("size-3 rounded")}
+                    style={{
+                      backgroundColor:
+                        taskStatusVariant[column.id as TaskStatus],
+                    }}
+                  />
+                  <h2 className="font-semibold">{column.title}</h2>
+                </div>
+              </div>
 
-                            <Separator className="mb-2"/>
+              <Separator className="mb-2" />
 
-                            <Droppable droppableId={column.id}>
-                                {(provided) => (
-                                    <div
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                    className="flex-1 rounded-lg p-2"
-                                    >
-                                    {column.tasks?.map((task, index) => (
-                                        <Draggable
-                                            key={task.id}
-                                            draggableId={task.id}
-                                            index={index}>
-                                                {
-                                                    (provided)=>(
-                                                        <ProjectCard
-                                                            ref={provided.innerRef}
-                                                            provided={provided}
-                                                            task={task}
-                                                            />
-                                                    )
-                                                }
-                                        </Draggable>
-                                    ))}
-                                    </div>
-                                )}
+              <Droppable droppableId={column.id}>
+                {(provided, snapshot) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className={cn(
+                      "flex-1 rounded-lg p-2 transition-colors min-h-[60px]",
+                      snapshot.isDraggingOver
+                        ? "bg-primary/10 dark:bg-primary/20"
+                        : "bg-transparent"
+                    )}
+                  >
+                    {column.tasks.length === 0 && (
+                      <div className="text-sm text-muted-foreground italic px-2 py-6 text-center">
+                        No tasks in this column
+                      </div>
+                    )}
 
-                            </Droppable>
-                        </div>
-                    ))
-                }
+                    {column.tasks.map((task, index) => (
+                      <Draggable
+                        key={task.id}
+                        draggableId={task.id}
+                        index={index}
+                        isDragDisabled={savingTask} // 🔥 Disable drag during saving
+                      >
+                        {(provided) => (
+                          <ProjectCard
+                            ref={provided.innerRef}
+                            provided={provided}
+                            task={task}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
+          ))}
         </DragDropContext>
-        </div>
-    };
+
+        {/* ========================================================= */}
+        {/* 🔥 Floating loader while saving the drag action */}
+        {/* ========================================================= */}
+        {savingTask && (
+          <div className="absolute bottom-4 right-4 bg-black/80 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 animate-pulse">
+            <svg
+              className="animate-spin h-4 w-4 text-white"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l3 3-3 3v-4a8 8 0 01-8-8z"
+              />
+            </svg>
+            Moving task…
+          </div>
+        )}
+      </div>
+    </>
+  )
+}

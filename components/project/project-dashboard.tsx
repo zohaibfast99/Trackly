@@ -1,4 +1,4 @@
-import { CommentProps, ProjectProps } from "@/utils/types";
+import { ProjectProps } from "@/utils/types";
 import { Activity, Task } from "@prisma/client";
 import { ProjectHeader } from "./project-header";
 import { Card } from "../ui/card";
@@ -18,7 +18,7 @@ interface ProjectDashboardProps{
 };
 activities:Activity[]
  totalWorkspaceMembers:number;
- comments:CommentProps[]
+ comments:any[]
 
 }
 
@@ -29,14 +29,13 @@ export const ProjectDashboard=({
     totalWorkspaceMembers,
     comments,
 }:ProjectDashboardProps)=>{
-    console.log(tasks);
     return(<>
-    <div className="flex flex-col gap-6 px-2 md:px-4 2xl:px-6 py-0">
+    <div className="flex flex-col gap-4 sm:gap-6 px-2 sm:px-3 md:px-4 2xl:px-6 py-0">
         <ProjectHeader
         project={project as unknown as ProjectProps}
          />
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card className="p-4">
+         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <Card className="p-3 sm:p-4">
                 <CircleProgress
             title="Task Completed"
             value={(tasks.completed/tasks.total)*100}
@@ -44,7 +43,7 @@ export const ProjectDashboard=({
             variant="success"
             />
         </Card>
-           <Card className="p-4">
+           <Card className="p-3 sm:p-4">
               <CircleProgress
             title="In Progress"
             value={(tasks.inProgress/tasks.total)*100}
@@ -52,7 +51,7 @@ export const ProjectDashboard=({
             variant="inProgress"
             />
            </Card>
-             <Card className="p-4">
+             <Card className="p-3 sm:p-4">
                 <CircleProgress
             title="Overdue"
             value={(tasks.overdue/tasks.total)*100}
@@ -60,7 +59,7 @@ export const ProjectDashboard=({
             variant="warning"
             />
              </Card>
-           <Card className="p-4">
+           <Card className="p-3 sm:p-4">
             <CircleProgress
             title="Team Members"
             value={(project.members.length)}
@@ -73,16 +72,18 @@ export const ProjectDashboard=({
             
        
    
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <TaskDistributionChart tasks={tasks}/>
-         <Card className="p-4">
-            <h3 className="text-lg font-semibold mb-4">Recent Activities</h3>
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
+        <div className="md:col-span-2 xl:col-span-1">
+          <TaskDistributionChart tasks={tasks}/>
+        </div>
+         <Card className="p-3 sm:p-4">
+            <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 truncate">Recent Activities</h3>
            
             
             <ActivityFeed activities={activities.slice(0,5) as any} />
              </Card>
-             <Card className="p-4">
-            <h3 className="text-lg font-semibold mb-4">Recent Comments</h3>
+             <Card className="p-3 sm:p-4">
+            <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 truncate">Recent Comments</h3>
             <CommentList comments={comments.slice(0,5) as any}/>
             </Card>
          

@@ -3,6 +3,7 @@
 import { WorkspacesProps } from "@/utils/types";
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { usePrefetch } from "@/hooks/use-data-fetching";
 import { useEffect, useState } from "react";
 import {
   SidebarMenu,
@@ -28,10 +29,11 @@ export const WorkspaceSelector = ({
 }) => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
+  const { prefetchWorkspace } = usePrefetch();
   const [selectedWorkspace, setSelectedWorkspace] = useState<
     WorkspacesProps | undefined
   >(undefined);
-  const [switching, setSwitching] = useState(false); // local loader only when switching workspace
+  const [switching, setSwitching] = useState(false); 
 
   const onWorkspaceSelect = (id: string) => {
     setSwitching(true);
@@ -41,16 +43,20 @@ export const WorkspaceSelector = ({
     router.push(`/workspace/${id}`);
   };
 
+  const handleWorkspaceHover = (workspaceId: string) => {
+    // Prefetch workspace data on hover for faster switching
+    prefetchWorkspace(workspaceId);
+  };
+
   useEffect(() => {
     if (workspaceId && workspaces) {
       setSelectedWorkspace(
         workspaces.find((workspace) => workspace.workspaceId === workspaceId)
       );
-      setSwitching(false); // stop loader once workspace is set
+      setSwitching(false); 
     }
   }, [workspaceId, workspaces]);
 
-  // Overall loading state = either projects are loading or switching
   const loading = projectsLoading || switching;
 
   return (
@@ -108,6 +114,7 @@ export const WorkspaceSelector = ({
                   <DropdownMenuItem
                     key={workspace.id}
                     onSelect={() => onWorkspaceSelect(workspace.workspaceId)}
+                    onMouseEnter={() => handleWorkspaceHover(workspace.workspaceId)}
                     className={cn(
                       "flex items-center justify-between px-3 py-2 rounded-md cursor-pointer hover:bg-muted transition-colors",
                       workspace.workspaceId === workspaceId

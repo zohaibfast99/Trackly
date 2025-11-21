@@ -8,6 +8,20 @@ import { projectSchema } from "@/lib/schema"
 export const createNewProject = async (data: ProjectDataType) => {
     const {user} = await  userRequired()
 
+    // Check plan limits before creating project - COMMENTED OUT
+    // const { checkPlanLimits } = await import("./subscription");
+    // const limitCheck = await checkPlanLimits("projectsPerWorkspace", data.workspaceId);
+    
+    // if (!limitCheck.canProceed) {
+    //     return {
+    //         status: 403,
+    //         message: "You've reached your project limit for your current plan. Please upgrade to create more projects.",
+    //         error: "PLAN_LIMIT_EXCEEDED",
+    //         limit: limitCheck.limit,
+    //         current: limitCheck.current
+    //     };
+    // }
+
     const workspace = await db.workspace.findUnique({
         where:{id:data?.workspaceId},
         include:{
@@ -61,4 +75,48 @@ export const createNewProject = async (data: ProjectDataType) => {
     })
 
     return {success:true}
+};
+
+
+export const postComments = async(workspaceId:string, 
+    projectId:string,
+    content: string
+) => {
+    const {user} = await userRequired();
+
+    const isMember = await db.workspaceMember.findUnique({
+        where:{
+            userId_workspaceId:{
+                userId:user.id,
+                workspaceId,
+            },
+        },
+    });
+
+    if (!isMember){
+        throw new Error("You are not a member of this workspace");
+    }
+
+    const projectAccess = await db.projectAccess.findUnique({
+        where:{
+            workspaceMemberId_projectId:{
+                workspaceMemberId: isMember.id,
+                projectId,
+            },
+        },
+    });
+    
+    if (!projectAccess){
+        throw new Error("You do not have access to this project");
+    }
+
+    const comment = await db.comment.create({
+        data:{
+            content,
+            projectId,
+            userId: user.id,
+        },
+    });
+
+    return comment;
 }

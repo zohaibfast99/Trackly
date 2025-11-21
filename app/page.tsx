@@ -5,8 +5,10 @@ import Link from "next/link";
 //import Image from "next/image";
 
 export default async function Home() {
-  const {isAuthenticated} = getKindeServerSession()
+  const {isAuthenticated,getUser} = getKindeServerSession()
   const isLoggedIn = await isAuthenticated()
+   const user = await getUser(); 
+
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center">
@@ -24,9 +26,9 @@ export default async function Home() {
           <div className="flex items-center justify-center gap-4 mt-6">
             {
               isLoggedIn ? <>
-               <Button asChild>
+              <Button asChild>
                 <Link href="/workspace">Go to workspace</Link>
-               </Button>
+              </Button>
               </> : <>
               <Button>
                 <RegisterLink>

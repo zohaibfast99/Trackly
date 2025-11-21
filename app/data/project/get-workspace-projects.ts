@@ -40,11 +40,18 @@ export const getWorkspaceProjectsByWorkspaceId = async (
       }),
       db.workspaceMember.findMany({
         where : {workspaceId},
-       include:{
-        user:{
-          select : {name:true, id:true , image:true},
+        include:{
+          user:{
+            select : {name:true, id:true, email:true, image:true},
+          },
+          projectAccess: {
+            select: {
+              id: true,
+              hasAccess: true,
+              projectId: true
+            }
+          }
         }
-       }
       }),
     ]);
     

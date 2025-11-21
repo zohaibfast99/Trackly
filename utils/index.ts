@@ -57,3 +57,13 @@ export const taskStats=[
     color: "bg-blue-500",
 },
 ];
+
+export const taskStatusVariant = {
+    [TaskStatus.BLOCKED]: "#ef4444",
+    [TaskStatus.TODO]: "#6366f1",
+    [TaskStatus.IN_PROGRESS]: "#f59e0b",
+    [TaskStatus.COMPLETED]: "#10b981",
+    [TaskStatus.BACKLOG]: "#ec4899",
+    [TaskStatus.IN_REVIEW]: "#a855f7",
+    default: "6366f1",
+};

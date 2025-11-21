@@ -81,20 +81,35 @@ export const CreateTaskDialog = ({ project }: Props) => {
   });
 
   const handleOnSubmit = async (data: TaskFormValues) => {
-    try {
-      setPending(true);
-      await createNewTask(data, project.id, workspaceId as string);
-      toast.success("Task created successfully!");
-      router.refresh();
-      form.reset();
-      setOpen(false); 
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to create task. Please try again.");
-    } finally {
-      setPending(false);
-    }
-  };
+  // Prevent submission if due date < start date
+  if (isDateError) {
+    toast.error("Due Date cannot be earlier than Start Date.");
+    return; // stop the function, task will not be created
+  }
+
+  try {
+    setPending(true);
+    await createNewTask(data, project.id, workspaceId as string);
+    toast.success("Task created successfully!");
+    router.refresh();
+    form.reset();
+    setOpen(false);
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to create task. Please try again.");
+  } finally {
+    setPending(false);
+  }
+};
+
+
+  const startDate = form.watch("startDate");
+  const dueDate = form.watch("dueDate");
+
+  const isDateError =
+    startDate && dueDate && new Date(dueDate) < new Date(startDate);
+
+
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -107,8 +122,8 @@ export const CreateTaskDialog = ({ project }: Props) => {
       </DialogTrigger>
 
       <DialogContent
-  className="sm:max-w-lg rounded-2xl border-none p-0 overflow-hidden shadow-2xl bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-black max-h-[90vh] overflow-y-auto"
->
+        className="sm:max-w-lg rounded-2xl border-none p-0 overflow-hidden shadow-2xl bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-black max-h-[90vh] overflow-y-auto"
+      >
 
         <Card className="shadow-none border-none bg-transparent">
           <DialogHeader className="px-6 pt-6 pb-2">
@@ -170,8 +185,8 @@ export const CreateTaskDialog = ({ project }: Props) => {
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
-                            
-                            
+
+
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -204,7 +219,7 @@ export const CreateTaskDialog = ({ project }: Props) => {
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
-                
+
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -244,8 +259,10 @@ export const CreateTaskDialog = ({ project }: Props) => {
                                     variant="outline"
                                     className={cn(
                                       "w-full pl-3 text-left font-normal bg-muted",
-                                      !field.value && "text-muted-foreground"
+                                      !field.value && "text-muted-foreground",
+                                      dateType === "dueDate" && isDateError && "border border-red-500"
                                     )}
+
                                   >
                                     {field.value ? (
                                       format(field.value, "PPP")
@@ -269,6 +286,12 @@ export const CreateTaskDialog = ({ project }: Props) => {
                               </PopoverContent>
                             </Popover>
                             <FormMessage />
+                            {dateType === "dueDate" && isDateError && (
+                              <p className="text-red-500 text-xs mt-1">
+                                Due Date cannot be earlier than Start Date.
+                              </p>
+                            )}
+
                           </FormItem>
                         )}
                       />
@@ -341,9 +364,9 @@ export const CreateTaskDialog = ({ project }: Props) => {
                         </FormLabel>
                         <FormControl>
                           <FileUpload
-                          value={field.value || []}
-                          onChange={field.onChange}
-                          
+                            value={field.value || []}
+                            onChange={field.onChange}
+
                           />
                         </FormControl>
                         <FormMessage />

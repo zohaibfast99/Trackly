@@ -15,6 +15,8 @@ import { Separator } from "@radix-ui/react-select"
 import { taskStatusVariant } from "@/utils"
 import { ProjectCard } from "./project-card"
 import { updatedTaskPosition } from "@/app/actions/task"
+import { useWorkspaceId } from "@/hooks/use-workspace-id"
+import { useProjectId } from "@/hooks/use-project-id"
 
 const COLUMN_TITLES: Record<$Enums.TaskStatus, string> = {
   TODO: "To Do",
@@ -31,6 +33,8 @@ export const ProjectKanban = ({
   initialTasks: ProjectTaskProps[]
 }) => {
   const router = useRouter()
+  const workspaceId = useWorkspaceId()
+  const projectId = useProjectId()
 
   if (!initialTasks.length) return null
 
@@ -106,15 +110,23 @@ export const ProjectKanban = ({
       setSavingTask(true)
 
       try {
-        await updatedTaskPosition(
+        // Update task in database
+        const response = await updatedTaskPosition(
           movedTask.id,
           newPosition,
-          destCol.id as TaskStatus
+          destCol.id as TaskStatus,
+          workspaceId,
+          projectId
         )
-        await router.refresh()
         
-        // Add a small delay to ensure UI has updated
-        await new Promise(resolve => setTimeout(resolve, 500))
+        // Wait for response to confirm database update
+        if (response && response.id === movedTask.id) {
+          // Database update confirmed, now refresh UI
+          await router.refresh()
+          
+          // Additional wait to ensure Next.js has revalidated and re-rendered
+          await new Promise(resolve => setTimeout(resolve, 1000))
+        }
         
       } catch (error) {
         console.log(error)

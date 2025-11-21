@@ -10,17 +10,17 @@ import { db } from "@/lib/db"
 import { generateInviteCode } from "@/utils/get-invite-code"
 import { sendInviteEmail } from "@/lib/mailer"
 import { AccessLevel } from '@prisma/client';
-import { redirect } from 'next/navigation'; 
+import { redirect } from 'next/navigation';
 
 
-export const createNewWorkspace = async(data : CreateWorkspaceDataType) => {
-    try{
-    const {user} = await userRequired()
+export const createNewWorkspace = async (data: CreateWorkspaceDataType) => {
+  try {
+    const { user } = await userRequired()
 
     // Check plan limits before creating workspace - COMMENTED OUT
     // const { checkPlanLimits } = await import("./subscription");
     // const limitCheck = await checkPlanLimits("workspaces");
-    
+
     // if (!limitCheck.canProceed) {
     //     return {
     //         status: 403,
@@ -34,34 +34,34 @@ export const createNewWorkspace = async(data : CreateWorkspaceDataType) => {
     const validatedData = workspaceSchema.parse(data)
 
     const res = await db.workspace.create({
-        data:{
-            name: validatedData.name,
-            description : validatedData.description,
-            ownerId : user.id,
-            inviteCode: generateInviteCode(),
-            members : {
-                create : {
-                    userId : user.id,
-                    accessLevel : "OWNER"
-                }
-            }
+      data: {
+        name: validatedData.name,
+        description: validatedData.description,
+        ownerId: user.id,
+        inviteCode: generateInviteCode(),
+        members: {
+          create: {
+            userId: user.id,
+            accessLevel: "OWNER"
+          }
         }
+      }
     })
-    return {data:res};
+    return { data: res };
+  }
+  catch (err) {
+    console.log(err)
+    return {
+      status: 500,
+      message: "An error occured while creating the workspace"
     }
-    catch(err){
-        console.log(err)
-        return {
-            status: 500,
-            message : "An error occured while creating the workspace"
-        }
 
-    }
+  }
 }
 
 export const updateWorkspace = async (
   workspaceId: string,
-  data:CreateWorkspaceDataType
+  data: CreateWorkspaceDataType
 ) => {
   const { user } = await userRequired();
 
@@ -133,14 +133,13 @@ export const deleteWorkspace = async (workspaceId: string) => {
     throw new Error("You are not a member of this workspace.");
   }
 
-  if (isUserAMember && isUserAMember.accessLevel !== AccessLevel.OWNER)
-  {
+  if (isUserAMember && isUserAMember.accessLevel !== AccessLevel.OWNER) {
     throw new Error("only an owner can delete the workspace");
   }
 
   await db.workspace.delete({
     where: { id: workspaceId },
-   
+
   });
 
   redirect("/workspace");
@@ -165,17 +164,23 @@ export const getWorkspaceStats = async (workspaceId: string) => {
     }
 
     // Get task stats
+    // Get all project IDs for this workspace
+    const projectIds = await db.project.findMany({
+      where: { workspaceId },
+      select: { id: true },
+    }).then(res => res.map(p => p.id));
+
+    // Get task stats
     const taskStats = await db.task.groupBy({
-      by: ['status'],
+      by: ["status"],
       where: {
-        project: {
-          workspaceId: workspaceId,
-        },
+        projectId: { in: projectIds },
       },
       _count: {
         id: true,
       },
     });
+
 
     // Get total tasks
     const totalTasks = await db.task.count({
@@ -422,7 +427,7 @@ export const inviteUserToWorkspace = async (workspaceId: string, email: string) 
     // Check plan limits before inviting - COMMENTED OUT
     // const { checkPlanLimits } = await import("./subscription");
     // const limitCheck = await checkPlanLimits("membersPerWorkspace", workspaceId);
-    
+
     // if (!limitCheck.canProceed) {
     //   return {
     //     success: false,
@@ -455,9 +460,9 @@ export const inviteUserToWorkspace = async (workspaceId: string, email: string) 
 
       // Send invitation email without adding user to workspace yet
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXTAUTH_URL || "http://localhost:3000";
-      const workspace = await db.workspace.findUnique({ 
-        where: { id: workspaceId }, 
-        select: { name: true, inviteCode: true } 
+      const workspace = await db.workspace.findUnique({
+        where: { id: workspaceId },
+        select: { name: true, inviteCode: true }
       });
 
       if (!workspace) {
@@ -472,7 +477,7 @@ export const inviteUserToWorkspace = async (workspaceId: string, email: string) 
 
       // Send invitation email
       const sendResult = await sendInviteEmail(email, inviteLink, workspace.name, inviterName);
-      
+
       if (!sendResult.success) {
         return {
           success: false,

@@ -5,6 +5,7 @@ import { userRequired } from "../data/user/is-user-authenticated";
 import { taskFormSchema } from "@/lib/schema";
 import { db } from "@/lib/db";
 import { TaskStatus } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const createNewTask=async(data: TaskFormValues,
     projectId:string,
@@ -73,7 +74,7 @@ export const createNewTask=async(data: TaskFormValues,
     return {success:true};
 };
 
-export const updatedTaskPosition=async(taskId:string, newPosition:number, status:TaskStatus)=>{
+export const updatedTaskPosition=async(taskId:string, newPosition:number, status:TaskStatus, workspaceId?:string, projectId?:string)=>{
     await userRequired();
 
     const task=await db.task.update({
@@ -81,8 +82,16 @@ export const updatedTaskPosition=async(taskId:string, newPosition:number, status
         data:{
             position:newPosition,
             status
+        },
+        include:{
+            project:true
         }
     });
+
+    // 🔥 Revalidate the project page to ensure fresh data across all views
+    if (workspaceId && projectId) {
+        revalidatePath(`/workspace/${workspaceId}/projects/${projectId}`);
+    }
 
     return task;
 }

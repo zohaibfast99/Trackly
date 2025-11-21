@@ -18,8 +18,11 @@ const variantStyles = {
 
 export const CircleProgress = ({ title, value, subTitle, variant }: GaugeProgressProps) => {
   const radius = 40;
-  const circumference = Math.PI * radius;
-  const offset = circumference - (value / 100) * circumference;
+const circumference = Math.PI * radius;
+
+const safeValue = Number.isFinite(value) ? value : 0;
+const offset = circumference - (safeValue / 100) * circumference;
+
 
   return (
     <div className="flex flex-col items-center justify-center p-3 sm:p-5 rounded-lg sm:rounded-xl bg-card shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02]">

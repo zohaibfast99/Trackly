@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///D:/840%20G3/7th%20semester/FSPM/Trackly/Trackly/components/AuthProvider.tsx"],"sourcesContent":["\"use client\";\r\nimport {KindeProvider} from \"@kinde-oss/kinde-auth-nextjs\";\r\n\r\nexport const AuthProvider = ({children}: {children: React.ReactNode}) => {\r\n  return <KindeProvider>{children}</KindeProvider>;\r\n};\r\n"],"names":[],"mappings":";;;;;AACA;AAAA;AADA;;;AAGO,MAAM,eAAe,CAAC,EAAC,QAAQ,EAA8B;IAClE,qBAAO,8OAAC,2NAAa;kBAAE;;;;;;AACzB","debugId":null}},
-    {"offset": {"line": 33, "column": 0}, "map": {"version":3,"sources":["file:///D:/840%20G3/7th%20semester/FSPM/Trackly/Trackly/components/theme-provider.tsx"],"sourcesContent":["\"use client\"\r\nimport *  as React from \"react\"\r\nimport {ThemeProvider as NextThemesProvider} from \"next-themes\"\r\nexport function ThemeProvider({\r\n    children,\r\n    ...props\r\n}:React.ComponentProps<typeof NextThemesProvider>){\r\n    return <NextThemesProvider {...props}>{children}</NextThemesProvider>\r\n}"],"names":[],"mappings":";;;;;AAEA;AAFA;;;AAGO,SAAS,cAAc,EAC1B,QAAQ,EACR,GAAG,OAC0C;IAC7C,qBAAO,8OAAC,iKAAkB;QAAE,GAAG,KAAK;kBAAG;;;;;;AAC3C","debugId":null}}]
-}

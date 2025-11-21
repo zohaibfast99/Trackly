@@ -65,7 +65,10 @@ export default function JoinWorkspacePage({ params }: JoinWorkspacePageProps) {
         const result = await getWorkspaceByInviteCode(workspaceId, inviteCode)
         
         if (result.success && result.data) {
-          setWorkspaceInfo(result.data.workspace)
+          setWorkspaceInfo({
+            ...result.data.workspace,
+            description: result.data.workspace.description || undefined
+          })
           setAlreadyMember(result.data.alreadyMember || false)
         } else {
           setError(result.error || 'Invalid or expired invite link')

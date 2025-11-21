@@ -6,6 +6,7 @@ import { User } from "@prisma/client";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroupLabel,
   SidebarHeader,
 } from "../ui/sidebar";
@@ -23,6 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+// import { SubscriptionStatus } from "../subscription/subscription-status";
 
 export const AppSidebar = ({
   data,
@@ -44,18 +46,18 @@ export const AppSidebar = ({
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="bg-background px-3 py-2 border-b">
+      <SidebarHeader className="bg-background px-2 sm:px-3 py-2 border-b">
         {/* Logo & App Name */}
-        <div className="flex items-center gap-2 mb-2">
-          <Avatar className="size-6">
+        <div className="flex items-center gap-2 mb-2 min-w-0">
+          <Avatar className="size-5 sm:size-6 flex-shrink-0">
             <AvatarImage src="/icon.svg" alt="Trackly Icon" />
           </Avatar>
-          <span className="text-lg font-bold tracking-tight">Trackly</span>
+          <span className="text-base sm:text-lg font-bold tracking-tight truncate">Trackly</span>
         </div>
 
         {/* Workspace Header */}
-        <div className="flex items-center justify-between">
-          <SidebarGroupLabel className="text-sm font-semibold text-muted-foreground uppercase">
+        <div className="flex items-center justify-between min-w-0">
+          <SidebarGroupLabel className="text-xs sm:text-sm font-semibold text-muted-foreground uppercase truncate">
             Workspace
           </SidebarGroupLabel>
 
@@ -67,10 +69,10 @@ export const AppSidebar = ({
               >
                 <Button
                   size="icon"
-                  className="rounded-md size-6 shadow-sm hover:scale-105 transition-transform duration-200"
+                  className="rounded-md size-5 sm:size-6 shadow-sm hover:scale-105 transition-transform duration-200 flex-shrink-0"
                 >
                   <Link href="/create-workspace">
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
                   </Link>
                 </Button>
               </TooltipTrigger>
@@ -84,7 +86,7 @@ export const AppSidebar = ({
           </TooltipProvider>
         </div>
 
-        <div className="mt-0">
+        <div className="mt-1 sm:mt-0 min-w-0">
           <WorkspaceSelector
             workspaces={data.workspaces.map((workspace) => ({
               ...workspace,
@@ -96,7 +98,7 @@ export const AppSidebar = ({
       </SidebarHeader>
 
       {/* Sidebar Navigation */}
-      <SidebarContent className="pt-2">
+      <SidebarContent className="pt-1 sm:pt-2 px-2 sm:px-3 flex flex-col">
         <NavMain />
 
         {projectsLoading ? (
@@ -109,6 +111,11 @@ export const AppSidebar = ({
             workspaceMembers={workspaceMembers}
           />
         )}
+        
+        {/* Push subscription status to bottom */}
+        {/* <div className="mt-auto">
+          <SubscriptionStatus />
+        </div> */}
       </SidebarContent>
     </Sidebar>
   );

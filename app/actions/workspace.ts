@@ -17,6 +17,20 @@ export const createNewWorkspace = async(data : CreateWorkspaceDataType) => {
     try{
     const {user} = await userRequired()
 
+    // Check plan limits before creating workspace - COMMENTED OUT
+    // const { checkPlanLimits } = await import("./subscription");
+    // const limitCheck = await checkPlanLimits("workspaces");
+    
+    // if (!limitCheck.canProceed) {
+    //     return {
+    //         status: 403,
+    //         message: "You've reached your workspace limit for your current plan. Please upgrade to create more workspaces.",
+    //         error: "PLAN_LIMIT_EXCEEDED",
+    //         limit: limitCheck.limit,
+    //         current: limitCheck.current
+    //     };
+    // }
+
     const validatedData = workspaceSchema.parse(data)
 
     const res = await db.workspace.create({
@@ -405,6 +419,20 @@ export const inviteUserToWorkspace = async (workspaceId: string, email: string) 
       throw new Error("You don't have permission to invite users.");
     }
 
+    // Check plan limits before inviting - COMMENTED OUT
+    // const { checkPlanLimits } = await import("./subscription");
+    // const limitCheck = await checkPlanLimits("membersPerWorkspace", workspaceId);
+    
+    // if (!limitCheck.canProceed) {
+    //   return {
+    //     success: false,
+    //     error: "PLAN_LIMIT_EXCEEDED",
+    //     message: "You've reached your team member limit for your current plan. Please upgrade to invite more members.",
+    //     limit: limitCheck.limit,
+    //     current: limitCheck.current
+    //   };
+    // }
+
     // Check if user with this email exists
     const existingUser = await db.user.findUnique({
       where: { email },
@@ -440,7 +468,7 @@ export const inviteUserToWorkspace = async (workspaceId: string, email: string) 
       }
 
       const inviteLink = `${baseUrl.replace(/\/$/, "")}/workspace-invite/${workspaceId}/join/${workspace.inviteCode}`;
-      const inviterName = user?.name || user?.email || undefined;
+      const inviterName = (user?.given_name ? `${user.given_name} ${user?.family_name || ''}`.trim() : undefined) || user?.email || 'Someone';
 
       // Send invitation email
       const sendResult = await sendInviteEmail(email, inviteLink, workspace.name, inviterName);

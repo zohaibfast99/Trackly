@@ -3,6 +3,7 @@
 import { WorkspacesProps } from "@/utils/types";
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { usePrefetch } from "@/hooks/use-data-fetching";
 import { useEffect, useState } from "react";
 import {
   SidebarMenu,
@@ -28,6 +29,7 @@ export const WorkspaceSelector = ({
 }) => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
+  const { prefetchWorkspace } = usePrefetch();
   const [selectedWorkspace, setSelectedWorkspace] = useState<
     WorkspacesProps | undefined
   >(undefined);
@@ -39,6 +41,11 @@ export const WorkspaceSelector = ({
       workspaces.find((workspace) => workspace.workspaceId === id)
     );
     router.push(`/workspace/${id}`);
+  };
+
+  const handleWorkspaceHover = (workspaceId: string) => {
+    // Prefetch workspace data on hover for faster switching
+    prefetchWorkspace(workspaceId);
   };
 
   useEffect(() => {
@@ -107,6 +114,7 @@ export const WorkspaceSelector = ({
                   <DropdownMenuItem
                     key={workspace.id}
                     onSelect={() => onWorkspaceSelect(workspace.workspaceId)}
+                    onMouseEnter={() => handleWorkspaceHover(workspace.workspaceId)}
                     className={cn(
                       "flex items-center justify-between px-3 py-2 rounded-md cursor-pointer hover:bg-muted transition-colors",
                       workspace.workspaceId === workspaceId

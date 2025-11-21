@@ -8,6 +8,20 @@ import { projectSchema } from "@/lib/schema"
 export const createNewProject = async (data: ProjectDataType) => {
     const {user} = await  userRequired()
 
+    // Check plan limits before creating project - COMMENTED OUT
+    // const { checkPlanLimits } = await import("./subscription");
+    // const limitCheck = await checkPlanLimits("projectsPerWorkspace", data.workspaceId);
+    
+    // if (!limitCheck.canProceed) {
+    //     return {
+    //         status: 403,
+    //         message: "You've reached your project limit for your current plan. Please upgrade to create more projects.",
+    //         error: "PLAN_LIMIT_EXCEEDED",
+    //         limit: limitCheck.limit,
+    //         current: limitCheck.current
+    //     };
+    // }
+
     const workspace = await db.workspace.findUnique({
         where:{id:data?.workspaceId},
         include:{

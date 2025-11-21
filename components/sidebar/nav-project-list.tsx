@@ -1,6 +1,7 @@
 "use client"
 
 import { ProjectProps, WorkspaceMembersProps } from "@/utils/types"
+import { usePrefetch } from "@/hooks/use-data-fetching"
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -26,11 +27,17 @@ export const NavProjects = ({
   const pathname = usePathname()
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
+  const { prefetchProjectTasks } = usePrefetch()
 
   const handleProjectClick = (href: string, isActive: boolean) => {
     if (isActive) return // prevent click on active project
     setOpenMobile(false)
     startTransition(() => router.push(href))
+  }
+
+  const handleProjectHover = (projectId: string) => {
+    // Prefetch project tasks on hover for faster navigation
+    prefetchProjectTasks(projectId)
   }
 
   return (
@@ -57,6 +64,7 @@ export const NavProjects = ({
                 <SidebarMenuButton asChild>
                   <motion.button
                     onClick={() => handleProjectClick(href, isActive)}
+                    onMouseEnter={() => handleProjectHover(proj.id)}
                     disabled={isPending}
                     whileHover={!isActive ? { backgroundColor: "hsl(var(--accent))" } : {}}
                     className={`relative flex items-center gap-3 w-full px-3 py-2 rounded-xl text-sm transition-all duration-200 overflow-hidden group

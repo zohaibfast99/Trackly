@@ -22,22 +22,22 @@ export const CircleProgress = ({ title, value, subTitle, variant }: GaugeProgres
   const offset = circumference - (value / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center p-5 rounded-xl bg-card shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02]">
-      <h3 className="text-sm font-medium text-muted-foreground mb-3">{title}</h3>
+    <div className="flex flex-col items-center justify-center p-3 sm:p-5 rounded-lg sm:rounded-xl bg-card shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02]">
+      <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-2 sm:mb-3 text-center truncate max-w-full">{title}</h3>
 
-      <div className="relative flex items-center justify-center w-32 h-16">
+      <div className="relative flex items-center justify-center w-24 h-12 sm:w-32 sm:h-16">
         <svg className="w-full h-full" viewBox="0 0 100 50">
           {/* Background Track */}
           <path
             d="M10 50 A40 40 0 0 1 90 50"
-            strokeWidth="10"
+            strokeWidth="8"
             className="stroke-muted"
             fill="none"
           />
           {/* Progress Arc */}
           <path
             d="M10 50 A40 40 0 0 1 90 50"
-            strokeWidth="10"
+            strokeWidth="8"
             fill="none"
             strokeLinecap="round"
             strokeDasharray={circumference}
@@ -47,7 +47,7 @@ export const CircleProgress = ({ title, value, subTitle, variant }: GaugeProgres
         </svg>
         <span
           className={cn(
-            "absolute bottom-0 text-lg font-semibold transition-all duration-300",
+            "absolute bottom-0 text-sm sm:text-lg font-semibold transition-all duration-300",
             variantStyles[variant].split(" ")[0]
           )}
         >
@@ -55,7 +55,7 @@ export const CircleProgress = ({ title, value, subTitle, variant }: GaugeProgres
         </span>
       </div>
 
-      <p className="text-sm text-muted-foreground mt-3">{subTitle}</p>
+      <p className="text-xs sm:text-sm text-muted-foreground mt-2 sm:mt-3 text-center truncate max-w-full">{subTitle}</p>
     </div>
   );
 };

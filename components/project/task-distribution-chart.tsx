@@ -77,7 +77,7 @@ export const TaskDistributionChart = ({ tasks }: TaskDistributionProps) => {
                       </tspan>
                       <tspan
                         x={viewBox.cx}
-                        y={viewBox.cy + 24}
+                        y={(viewBox.cy || 0) + 24}
                         className="text-sm text-muted-foreground"
                       >
                         Tasks

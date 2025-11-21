@@ -34,7 +34,7 @@ export const getProjectDetails=async(workspaceId:string, projectId:string)=>{
                             workspaceMember:{
                                 include:{
                                     user:{
-                                        select:{name:true, id:true, image:true},
+                                        select:{name:true, id:true, email:true, image:true},
                                     },
                                 },
                             },

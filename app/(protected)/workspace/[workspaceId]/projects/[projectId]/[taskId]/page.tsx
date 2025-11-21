@@ -20,7 +20,7 @@ const TaskIdPage = async({params}: PageProps) => {
 
     const {task, comments} = await getTaskById(taskId, workspaceId, projectId);
 
-    if (!task) redirect("/not-found");
+    if (!task || !task.id) redirect("/not-found");
     
     return (
     <div className='flex flex-col lg:flex-row gap-6 md:px-6 pb-6'>

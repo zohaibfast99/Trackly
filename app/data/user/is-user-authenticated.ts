@@ -3,22 +3,29 @@ import { redirect } from "next/navigation";
 import { syncUser } from "./sync-user";
 
 export const userRequired = async () => {
+  const { isAuthenticated, getUser } = getKindeServerSession();
+  
   try {
-    const { isAuthenticated, getUser } = getKindeServerSession();
     const isUserAuthenticated = await isAuthenticated();
-    if (!isUserAuthenticated) redirect("/api/auth/login");
+    if (!isUserAuthenticated) {
+      redirect("/api/auth/login");
+    }
 
-   
-     const user = await syncUser();
+    const user = await syncUser();
 
-    return { user, isUserAuthenticated };
+    if (!user || !user.id) {
+      console.error("User is null after sync");
+      redirect("/api/auth/login");
+    }
+
+    return { user: user!, isUserAuthenticated };
   } catch (error) {
-    // Check if it's a Next.js redirect error
-    if (error && typeof error === 'object' && 'digest' in error && 
-        typeof (error as any).digest === 'string' && 
-        (error as any).digest.startsWith('NEXT_REDIRECT')) {
-      // Re-throw redirect errors - they're not actual errors
-      throw error;
+    // Check if it's a Next.js redirect error - these should be re-thrown
+    if (error && typeof error === 'object' && 'digest' in error) {
+      const digest = (error as any).digest;
+      if (typeof digest === 'string' && digest.includes('NEXT_REDIRECT')) {
+        throw error; // Re-throw redirect errors
+      }
     }
     
     console.error("Error in userRequired:", error);

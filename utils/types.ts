@@ -61,8 +61,8 @@ export interface ProjectTaskProps extends Task {
     assignedTo : {
         id:string;
         name:string;
-        image?:string;
-    };
+        image?:string | null;
+    } | null;
     project: {id:string; name:string};
 }
 

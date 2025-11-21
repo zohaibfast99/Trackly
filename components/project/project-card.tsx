@@ -42,12 +42,18 @@ export const ProjectCard =({ref, provided, task}: DataProps) => {
         </div>
 
         <div className="flex items-center gap-2 mt-2">
-            <ProfileAvatar 
-            url={task.assignedTo.image}
-            name={task.assignedTo.name}
-            className="!size-6"
-            />
-            <p className="text-sm text-muted-foreground">{task.assignedTo.name}</p>
+            {task.assignedTo ? (
+                <>
+                    <ProfileAvatar 
+                    url={task.assignedTo.image || undefined}
+                    name={task.assignedTo.name}
+                    className="!size-6"
+                    />
+                    <p className="text-sm text-muted-foreground">{task.assignedTo.name}</p>
+                </>
+            ) : (
+                <p className="text-sm text-muted-foreground">Unassigned</p>
+            )}
 
         </div>
     </Card>

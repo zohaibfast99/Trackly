@@ -5,7 +5,7 @@ import { ProjectDashboard } from "@/components/project/project-dashboard";
 import { ProjectKanban } from "@/components/project/project-kanban";
 import { ProjectTableContainer } from "@/components/project/project-table-container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CommentProps, ProjectProps } from "@/utils/types";
+import { ProjectProps } from "@/utils/types";
 import Link from "next/link";
 import React from "react"
 
@@ -37,7 +37,7 @@ const ProjectPage =async (props:ProjectPageProps) =>{
              tasks={tasks as any }
              activities={activities!}
              totalWorkspaceMembers={totalWorkspaceMembers!}
-             comments={comments as CommentProps[]}
+             comments={comments as any[]}
              />
              
              </TabsContent>
@@ -45,7 +45,7 @@ const ProjectPage =async (props:ProjectPageProps) =>{
                  <ProjectTableContainer  projectId={projectId}/>
                 </TabsContent>
             <TabsContent value="kanban">
-                <ProjectKanban initialTasks={tasks?.items}/>
+                <ProjectKanban initialTasks={tasks?.items || []}/>
             </TabsContent>
         </Tabs>
     </div>

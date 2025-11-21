@@ -1,8 +1,0 @@
-{
-  "/(protected)/onboarding/page": "app/(protected)/onboarding/page.js",
-  "/(protected)/workspace/[workspaceId]/members/page": "app/(protected)/workspace/[workspaceId]/members/page.js",
-  "/(protected)/workspace/[workspaceId]/page": "app/(protected)/workspace/[workspaceId]/page.js",
-  "/(protected)/workspace/page": "app/(protected)/workspace/page.js",
-  "/api/auth/[kindeAuth]/route": "app/api/auth/[kindeAuth]/route.js",
-  "/page": "app/page.js"
-}

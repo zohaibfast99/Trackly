@@ -268,13 +268,6 @@ function WorkspaceDashboardComp(): JSX.Element {
             Here's what's happening in <span className="font-medium">{workspaceInfo.name}</span> today.
           </p>
         </div>
-        <Button asChild size="sm" className="sm:size-default flex-shrink-0">
-          <Link href={`/workspace/${workspaceId}/tasks`}>
-            <Plus className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden xs:inline">New Task</span>
-            <span className="xs:hidden">Task</span>
-          </Link>
-        </Button>
       </div>
 
       {/* Stats */}

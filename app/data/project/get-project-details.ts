@@ -28,11 +28,21 @@ export const getProjectDetails=async(workspaceId:string, projectId:string)=>{
                 where:{
                     id:projectId,
                 },
-                include:{
+                select:{
+                    id: true,
+                    name: true,
+                    description: true,
+                    createdAt: true,
+                    updatedAt: true,
                     projectAccess:{
-                        include:{
+                        select:{
+                            id: true,
+                            hasAccess: true,
                             workspaceMember:{
-                                include:{
+                                select:{
+                                    id: true,
+                                    userId: true,
+                                    accessLevel: true,
                                     user:{
                                         select:{name:true, id:true, email:true, image:true},
                                     },
@@ -41,33 +51,52 @@ export const getProjectDetails=async(workspaceId:string, projectId:string)=>{
                         },
                     },
                     tasks:{
-                        include:{
+                        select:{
+                            id: true,
+                            title: true,
+                            description: true,
+                            status: true,
+                            priority: true,
+                            startDate: true,
+                            dueDate: true,
+                            position: true,
+                            createdAt: true,
+                            updatedAt: true,
                             assignedTo:{
                                 select:{name:true, id:true, image:true},
                             },
                             project:{
                                 select:{name:true, id:true},
                             },
-                            
                         },
-                        
+                        orderBy: { position: "asc" },
                     },
                     activities:{
-                        include:{
+                        select:{
+                            id: true,
+                            type: true,
+                            description: true,
+                            createdAt: true,
                             user:{
                                 select:{name:true, id:true, image:true},
                             },
                         },
                         orderBy:{createdAt:"desc"},
+                        take: 20,
                     },
                 },
             }),
             db.comment.findMany({
                 where:{projectId},
-                include:{
+                select:{
+                    id: true,
+                    content: true,
+                    createdAt: true,
+                    updatedAt: true,
                     user:{select:{name:true, id:true, image:true}},
                 },
                 orderBy:{createdAt:"desc"},
+                take: 50,
             }),
         ]);
 

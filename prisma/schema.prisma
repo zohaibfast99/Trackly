@@ -84,6 +84,8 @@ model ProjectAccess{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@unique([workspaceMemberId, projectId])
+  @@index([projectId])
+  @@index([workspaceMemberId])
 }
 
 enum TaskStatus{
@@ -118,6 +120,11 @@ model Task{
   attachments File[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@index([projectId])
+  @@index([assigneeId])
+  @@index([status])
+  @@index([projectId, status])
+  @@index([dueDate])
 }
 
 model Activity{
@@ -129,6 +136,9 @@ model Activity{
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+  @@index([projectId])
+  @@index([userId])
+  @@index([createdAt])
 }
 
 model Comment{
